@@ -5,10 +5,10 @@ public class MainClassTest {
     MainClass main = new MainClass();
 
     @Test
-    public void testGetLocalNumber() {
-        int result = main.getLocalNumber();
+    public void testGetClassNumber() {
+        int result = main.getClassNumber();
 
-        Assert.assertEquals("Local number does not equal 14",14, result);
+        Assert.assertTrue("Classnumber is less than 45", result > 45);
     }
 
 }
