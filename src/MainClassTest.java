@@ -2,13 +2,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class MainClassTest {
-    MainClass main = new MainClass();
+MainClass main = new MainClass ();
 
     @Test
-    public void testGetClassNumber() {
-        int result = main.getClassNumber();
-
-        Assert.assertTrue("Classnumber is less than 45", result > 45);
+    public void testGetClassString () {
+        String result = main.getClassString ();
+        Assert.assertTrue( "No Hello substring",result.contains("hello")||result.contains("Hello") );
     }
 
 }
