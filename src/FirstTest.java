@@ -55,14 +55,54 @@ public class FirstTest {
         close_search.click();
         Boolean close_search_not_present = waitForElementNorPresent(By.id("org.wikipedia:id/search_close_btn"), "x is present", 5);
 
+    }
 
+    @Test
+    public void myThirdTest(){
+        WebElement search_element = waitForElement(By.id("org.wikipedia:id/search_container"), "Search element is not found", 5);
+        search_element.click();
+
+        WebElement search_second_element = waitForElement(By.id("org.wikipedia:id/search_src_text"), "Second input is not found", 5);
+        search_second_element.sendKeys("Java");
+
+        waitForElement(By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']"), "No results", 20);
+
+        assertElementHasText(
+                By.xpath("(//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title'])[1]"),
+                "Java",
+                "Java is not present in each line");
+
+        assertElementHasText(
+                By.xpath("(//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title'])[2]"),
+                "Java",
+                "Java is not present in each line");
+
+        assertElementHasText(
+                By.xpath("(//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title'])[3]"),
+                "Java",
+                "Java is not present in each line");
+
+        assertElementHasText(
+                By.xpath("(//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title'])[4]"),
+                "Java",
+                "Java is not present in each line");
+
+        assertElementHasText(
+                By.xpath("(//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title'])[5]"),
+                "Java",
+                "Java is not present in each line");
+
+        assertElementHasText(
+                By.xpath("(//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title'])[6]"),
+                "Java",
+                "Java is not present in each line");
 
     }
 
     public void assertElementHasText(By by, String expected_text, String error_message) {
       WebElement element = driver.findElement(by);
       String actual_text = element.getText();
-      Assert.assertEquals(error_message, expected_text, actual_text);
+      Assert.assertTrue(error_message, actual_text.contains(expected_text));
     }
 
 
