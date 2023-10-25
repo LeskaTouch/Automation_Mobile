@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 
@@ -42,11 +44,42 @@ public class FirstTest {
                 "Search input contains incorrect text");
     }
 
+    @Test
+    public void mySecondTest(){
+        WebElement search_element = waitForElement(By.id("org.wikipedia:id/search_container"), "Search element is not found", 5);
+        search_element.click();
+        WebElement search_second_element = waitForElement(By.id("org.wikipedia:id/search_src_text"), "Second input is not found", 5);
+        search_second_element.sendKeys("Java");
+        WebElement result_search = waitForElement(By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']"), "No results", 5);
+        WebElement close_search = waitForElement(By.id("org.wikipedia:id/search_close_btn"), "Search is not closed", 5);
+        close_search.click();
+        Boolean close_search_not_present = waitForElementNorPresent(By.id("org.wikipedia:id/search_close_btn"), "x is present", 5);
+
+
+
+    }
+
     public void assertElementHasText(By by, String expected_text, String error_message) {
       WebElement element = driver.findElement(by);
       String actual_text = element.getText();
       Assert.assertEquals(error_message, expected_text, actual_text);
     }
+
+
+    private WebElement waitForElement(By selector, String error_message, long timeoutinseconds){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutinseconds);
+        wait.withMessage(error_message);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(selector));
+    }
+
+    private boolean waitForElementNorPresent(By selector, String error_message, long timeinseconds ){
+        WebDriverWait wait = new WebDriverWait(driver,timeinseconds);
+        wait.withMessage(error_message);
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(selector));
+
+    }
+
+
 
 
 }
