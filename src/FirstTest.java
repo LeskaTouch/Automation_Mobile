@@ -29,6 +29,8 @@ public class FirstTest {
         URL appiumServerURL = new URL("http://127.0.0.1:4723/wd/hub");
 
         driver = new AndroidDriver<>(appiumServerURL, capabilities);
+
+        driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
     @After
@@ -165,6 +167,28 @@ public class FirstTest {
         assertElementPresent(By.xpath("//*[@resource-id='pcs']//*[@content-desc='Rafael Nadal']"), "No title");
     }
 
+    @Test
+
+    public void rotationTest(){
+        WebElement search_field = waitForElement(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "No search field is found", 15);
+        search_field.click();
+
+        WebElement tap_search_field = waitForElement(By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"), "No tapped search field is found", 15);
+        tap_search_field.sendKeys("Java");
+
+        WebElement element_in_list = waitForElement(By.xpath("//*[@text = 'Java (programming language)']"), "No such article is found", 15);
+        element_in_list.click();
+
+        String title_before = getElementAttribute(By.xpath("//*[@resource-id='pcs']//*[@content-desc='Java (programming language)']"), "No such title of the article", "name", 5);
+
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+
+        String title_after = getElementAttribute(By.xpath("//*[@resource-id='pcs']//*[@content-desc='Java (programming language)']"), "No such title of the article after rotation", "name", 5);
+
+        Assert.assertEquals("Titles before and after rotation are not the same", title_after, title_before);
+
+    }
+
     public void assertElementHasText(By by, String expected_text, String error_message) {
       WebElement element = waitForElement(by, "Title element is not found with parameters " + by, 5);
       String actual_text = element.getAttribute("contentDescription");
@@ -209,5 +233,10 @@ public class FirstTest {
            Assert.fail(error_message_no_title);
        }
 
+    }
+
+    public String getElementAttribute(By locator, String error_message,String attribute, long timeout){
+        WebElement element = waitForElement(locator,error_message, timeout);
+        return element.getAttribute(attribute);
     }
 }
