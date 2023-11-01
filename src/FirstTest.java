@@ -150,6 +150,21 @@ public class FirstTest {
         assertElementHasText(By.xpath(title_selector), "Roger Federer", "Title is not as expected");
     }
 
+    @Test
+    public void TitleTest(){
+
+        WebElement search_field = waitForElement(By.xpath("//*[@resource-id='org.wikipedia:id/search_container']"), "No search field is found", 5);
+        search_field.click();
+
+        WebElement tap_search_field = waitForElement(By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"), "No tapped search field is found", 5);
+        tap_search_field.sendKeys("Nadal");
+
+        WebElement element_in_list = waitForElement(By.xpath("//*[@text = 'Rafael Nadal']"), "No such article is found", 5);
+        element_in_list.click();
+
+        assertElementPresent(By.xpath("//*[@resource-id='pcs']//*[@content-desc='Rafael Nadal']"), "No title");
+    }
+
     public void assertElementHasText(By by, String expected_text, String error_message) {
       WebElement element = waitForElement(by, "Title element is not found with parameters " + by, 5);
       String actual_text = element.getAttribute("contentDescription");
@@ -178,5 +193,21 @@ public class FirstTest {
         int y_middle = (y_bottom+y_top)/2;
        TouchAction action = new TouchAction(driver);
        action.press(x_right-10,y_middle).waitAction(150).moveTo(x_left+10,y_middle).release().perform();
+    }
+
+    public int numberOfElements(By locator){
+
+        int number_of_elements = driver.findElements(locator).size();
+        return number_of_elements;
+
+    }
+
+
+
+    public void assertElementPresent(By locator, String error_message_no_title){
+       if (numberOfElements(locator) == 0) {
+           Assert.fail(error_message_no_title);
+       }
+
     }
 }
