@@ -1,16 +1,17 @@
-package tests.android;
-import lib.test_case.AndroidTestCase;
-import lib.ui_android.ArticlePageObject;
-import lib.ui_android.MyListsPageObject;
-import lib.ui_android.NavigationUI;
-import lib.ui_android.SearchPageObject;
+package tests;
+import lib.factories.ArticlePageObjectFactory;
+import lib.factories.MyListsFactory;
+import lib.factories.NavigationUIFactory;
+import lib.factories.SearchPageObjectFactory;
+import lib.test_case.CoreTestCase;
+import lib.ui_common.*;
 
-public class MyListsTests extends AndroidTestCase {
+public class MyListsTests extends CoreTestCase {
     public void testSaveArticles(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
-        NavigationUI navigationUI = new NavigationUI(driver);
-        MyListsPageObject myListsPageObject = new MyListsPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        MyListsPageObject myListsPageObject = MyListsFactory.get(driver);
 
         searchPageObject.initSearchElement();
         searchPageObject.typeSearchLine("Roger Federer");
@@ -28,11 +29,11 @@ public class MyListsTests extends AndroidTestCase {
         articlePageObject.saveArticle();
 
         articlePageObject.clickBackButton();
-        articlePageObject.clickBackButton();
+        searchPageObject.clickBackButton();
 
         navigationUI.clickSavedArticles();
-
         myListsPageObject.openSavedArticlesFolder();
+        myListsPageObject.closeSyncPopup();
 
         myListsPageObject.swipeByArticleToDelete("Rafael Nadal");
 

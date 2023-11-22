@@ -1,14 +1,16 @@
-package lib.ui_android;
+package lib.ui_common;
 import io.appium.java_client.MobileDriver;
+import io.appium.java_client.ios.IOSElement;
 import lib.ui_common.MainPageObject;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 
-public class ArticlePageObject extends MainPageObject {
+abstract public class ArticlePageObject extends MainPageObject {
 
-    private static final String ARTICLE_TITLE= "xpath://*[@resource-id='pcs']//*[@class='android.view.View'][1]//*[@class='android.view.View'][1]";
-    private static final String SAVE_BUTTON = "id:org.wikipedia:id/page_save";
-    private static final String BACK_BUTTON = "xpath://*[@content-desc='Navigate up']";
+    protected static String ARTICLE_TITLE,
+    SAVE_BUTTON,
+    BACK_BUTTON,
+    TITLE_ATTRIBUTE_NAME;
     public ArticlePageObject(MobileDriver driver){
         super(driver);
     }
@@ -18,11 +20,12 @@ public class ArticlePageObject extends MainPageObject {
         return waitForElement(
                 getLocator(ARTICLE_TITLE),
                 "Title of the article is not found",
-                15);
+                5);
     }
 
     public String getTitleText(){
-        return waitForTitleElement().getAttribute("contentDescription");
+        WebElement el = waitForTitleElement();
+        return el.getAttribute(TITLE_ATTRIBUTE_NAME);
     }
 
     public void assertTitleEquals(String expected_title){
@@ -33,14 +36,13 @@ public class ArticlePageObject extends MainPageObject {
         waitForElementAndClick(
                 getLocator(SAVE_BUTTON),
                 "No 'Save' button is found",
-                5);
+                1);
     }
 
     public void clickBackButton(){
         waitForElementAndClick(
                 getLocator(BACK_BUTTON),
-                "No back button is found for second search",
-                5);
+                "No back button is found for second search", 1);
     }
 
 

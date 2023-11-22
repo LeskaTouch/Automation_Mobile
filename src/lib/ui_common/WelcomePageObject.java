@@ -1,16 +1,17 @@
-package lib.ui_ios;
+package lib.ui_common;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui_common.MainPageObject;
 import org.openqa.selenium.By;
 
-public class WelcomePageObject extends MainPageObject {
-    private static final String LEARN_MORE = "name:Learn more about Wikipedia";
-    private static final String NEXT_BUTTON = "name:Next";
-    private static final String NEW_WAYS = "id:New ways to explore";
-    private static final String SEARCH_IS_OVER = "id:Search in over 300 languages";
-    private static final String MAKE_APP_BETTER = "id:Help make the app better";
-    private static final String GET_STARTED = "name:Get started";
+abstract public class WelcomePageObject extends MainPageObject {
+    protected static String LEARN_MORE,
+            NEXT_BUTTON,
+            NEW_WAYS,
+            SEARCH_IS_OVER,
+            MAKE_APP_BETTER,
+            GET_STARTED,
+    SKIP_BUTTON;
 
 
     public WelcomePageObject(AppiumDriver driver)
@@ -37,6 +38,10 @@ public class WelcomePageObject extends MainPageObject {
 
     public void clickGetStartedButton(){
         waitForElementAndClick(getLocator(GET_STARTED), "No 'Get started' button is found", 10);
+    }
+
+    public void clickSkipButton(){
+        waitForElementAndClick(getLocator(SKIP_BUTTON), "No Skip button is found", 5);
     }
 
 

@@ -1,11 +1,11 @@
-package lib.ui_android;
+package lib.ui_common;
 
 import io.appium.java_client.MobileDriver;
 import lib.ui_common.MainPageObject;
 
 public class NavigationUI extends MainPageObject {
 
-    private static final String SAVED_ARTICLE_BUTTON = "xpath://*[@content-desc='Saved']";
+    protected static String SAVED_ARTICLE_BUTTON;
     public NavigationUI(MobileDriver driver){
         super(driver);
     }

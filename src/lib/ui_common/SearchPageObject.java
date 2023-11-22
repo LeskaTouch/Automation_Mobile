@@ -1,19 +1,20 @@
-package lib.ui_android;
+package lib.ui_common;
 
 import io.appium.java_client.MobileDriver;
 import lib.ui_common.MainPageObject;
 import org.openqa.selenium.WebElement;
 
-public class SearchPageObject extends MainPageObject {
+abstract public class SearchPageObject extends MainPageObject {
+    protected static String
 
-    private static final String INIT_SEARCH_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/search_container']";
-    private static final String SEARCH_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/search_src_text']";
-    private static final String SEARCH_RESULTS = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']";
-    private static final String CLEAR_BUTTON = "id:org.wikipedia:id/search_close_btn";
-    private static final String SEARCH_RESULT_ITEM_TITLE = "xpath:(//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title'])[{ORDER}]";
-    private static final String ARTICLE_NAME_TEMPLATE = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title'][@text = '{TITLE}']";
-
-    private static final String ARTICLE_TITLE_AND_DESCRIPTION = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup'][*[@text = '{DESCRIPTION}'] and *[@text='{TITLE}']]";
+    INIT_SEARCH_ELEMENT,
+     SEARCH_ELEMENT,
+     SEARCH_RESULTS,
+     CLEAR_BUTTON,
+     SEARCH_RESULT_ITEM_TITLE,
+    ARTICLE_NAME_TEMPLATE,
+    ARTICLE_TITLE_AND_DESCRIPTION,
+    BACK_BUTTON;
 
 
     public SearchPageObject(MobileDriver driver){
@@ -23,7 +24,7 @@ public class SearchPageObject extends MainPageObject {
     public void initSearchElement(){
         waitForElementAndClick(getLocator(INIT_SEARCH_ELEMENT),
                 "No search field is found",
-                5);
+                15);
 
     };
 
@@ -84,6 +85,13 @@ public class SearchPageObject extends MainPageObject {
         return waitForElement(
                 getLocator(getSearchResultItemByTitleAndDescription(title, description)),
                 "No article with TITLE " + title + " and DESCRIPTION " + description + " is found",
+                5);
+    }
+
+    public void clickBackButton() {
+        waitForElementAndClick(
+                getLocator(BACK_BUTTON),
+                "No back button is found for second search",
                 5);
     }
 

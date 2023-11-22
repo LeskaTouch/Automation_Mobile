@@ -2,16 +2,22 @@ package lib.ui_common;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.regex.Pattern;
+import lib.test_case.Platform;
 
 public class MainPageObject {
-    private MobileDriver driver;
+    protected MobileDriver driver;
 
     public MainPageObject(MobileDriver driver){
         this.driver = driver;
@@ -21,6 +27,7 @@ public class MainPageObject {
         WebElement element = waitForElement(by, "Title element is not found with parameters " + by, 5);
         String actual_text = element.getText();
 
+        System.out.println(actual_text);
         Assert.assertTrue(error_message, actual_text.contains(expected_text));
     }
 
@@ -65,7 +72,9 @@ public class MainPageObject {
         int x_right = x_left+element_to_swipe.getSize().width;
         int y_middle = (y_bottom+y_top)/2;
         TouchAction action = new TouchAction(driver);
-        action.press(x_right-10,y_middle).waitAction(150).moveTo(x_left+10,y_middle).release().perform();
+        //action.press(x_right-50,y_middle).waitAction(Duration.ofMillis(200)).moveTo(x_left+10,y_middle);
+        action.press(PointOption.point(x_right-50,y_middle)).waitAction(WaitOptions.waitOptions(Duration.of(200, ChronoUnit.MILLIS))).moveTo(PointOption.point(x_left+10,y_middle));
+        action.release().perform();
     }
 
     public int numberOfElements(By locator){
@@ -103,6 +112,22 @@ public class MainPageObject {
             throw new IllegalArgumentException("The locator contains neihter id nor xpath");
         }
 
+
+    }
+
+    public static class NavigationUI extends MainPageObject {
+
+        private static final String SAVED_ARTICLE_BUTTON = "xpath://*[@content-desc='Saved']";
+        public NavigationUI(MobileDriver driver){
+            super(driver);
+        }
+
+        public void clickSavedArticles(){
+            waitForElementAndClick(
+                    getLocator(SAVED_ARTICLE_BUTTON),
+                    "No Saved button on the main screen is found",
+                    5);
+        }
 
     }
 }

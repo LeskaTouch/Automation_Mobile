@@ -1,12 +1,15 @@
-package lib.ui_android;
+package lib.ui_common;
 
 import io.appium.java_client.MobileDriver;
 import lib.ui_common.MainPageObject;
 
-public class MyListsPageObject extends MainPageObject {
-    private static final String SAVED_ARTICLES_FOLDER = "xpath://*[@text='Default list for your saved articles']";
-    private static final String ARTICLE = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{ARTICLE_NAME}']";
-    private static final String ARTICLE_DESCRIPTION = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{ARTICLE_DESCRIPTION}']";
+abstract public class MyListsPageObject extends MainPageObject {
+    protected static String SAVED_ARTICLES_FOLDER,
+    ARTICLE,
+    ARTICLE_DESCRIPTION,
+    DELETE_BUTTON,
+    CLOSE_SYNC_POPUP;
+
     public MyListsPageObject(MobileDriver driver){
         super(driver);
 
@@ -20,10 +23,14 @@ public class MyListsPageObject extends MainPageObject {
 
     }
 
+    public void closeSyncPopup() {
+        waitForElementAndClick(getLocator(CLOSE_SYNC_POPUP), "NO SYNC POPUP CLOSE BTN", 5);
+    }
+
     public void swipeByArticleToDelete(String article_name){
         swipeToTheLeft(
                 getLocator(getArticleName(article_name)),
-                "No article with" +article_name + "is found to swipe");
+                "No article with " + article_name +  "is found to swipe");
     }
 
     private String getArticleName(String article_name){

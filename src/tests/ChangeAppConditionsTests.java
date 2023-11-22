@@ -1,16 +1,18 @@
-package tests.android;
-import lib.test_case.AndroidTestCase;
-import lib.ui_android.ArticlePageObject;
-import lib.ui_android.SearchPageObject;
+package tests;
+import lib.factories.ArticlePageObjectFactory;
+import lib.factories.SearchPageObjectFactory;
+import lib.test_case.CoreTestCase;
+import lib.ui_common.ArticlePageObject;
+import lib.ui_common.SearchPageObject;
 
-public class ChangeAppConditionsTests extends AndroidTestCase {
+public class ChangeAppConditionsTests extends CoreTestCase {
     public void testRotationTest(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchElement();
         searchPageObject.typeSearchLine("Java");
 
         searchPageObject.clickArticleName("Java (programming language)");
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
 
         String title_before = articlePageObject.getTitleText();
         articlePageObject.assertTitleEquals("Java (programming language)");

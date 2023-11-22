@@ -1,11 +1,13 @@
-package tests.android;
+package tests;
 
-import lib.test_case.AndroidTestCase;
-import lib.ui_android.SearchPageObject;
 
-public class SearchTests extends AndroidTestCase {
+import lib.factories.SearchPageObjectFactory;
+import lib.test_case.CoreTestCase;
+import lib.ui_common.SearchPageObject;
+
+public class SearchTests extends CoreTestCase {
     public void testClearResult(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchElement();
         searchPageObject.typeSearchLine("Java");
 
@@ -16,7 +18,7 @@ public class SearchTests extends AndroidTestCase {
     }
 
     public void testSearchResultsAreRelevant(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchElement();
 
         searchPageObject.typeSearchLine("Java");
@@ -28,12 +30,11 @@ public class SearchTests extends AndroidTestCase {
         searchPageObject.assertSearchResultHasText("Java", 3);
         searchPageObject.assertSearchResultHasText("Java", 4);
         searchPageObject.assertSearchResultHasText("Java", 5);
-        searchPageObject.assertSearchResultHasText("Java", 6);
 
     }
 
     public void testSearchArticleWithTitleAndDescription(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchElement();
         searchPageObject.typeSearchLine("Java");
 

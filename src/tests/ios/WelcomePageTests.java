@@ -1,13 +1,15 @@
 package tests.ios;
 
-import lib.test_case.IosTestCase;
-import lib.ui_ios.WelcomePageObject;
+import lib.factories.SearchPageObjectFactory;
+import lib.factories.WelcomePageFactory;
+import lib.test_case.CoreTestCase;
+import lib.ui_common.WelcomePageObject;
 import org.junit.Test;
 
-public class WelcomePageTests extends IosTestCase {
+public class WelcomePageTests extends CoreTestCase {
     @Test
     public void testWelcomePage(){
-        WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
+        WelcomePageObject welcomePageObject = WelcomePageFactory.get(driver);
         welcomePageObject.waitForLearnMoreLink();
         welcomePageObject.clickNextButton();
         welcomePageObject.waitForNewWaysToExplore();
